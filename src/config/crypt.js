@@ -16,7 +16,7 @@ const checkSenha = (password, userPassword) => {
     // console.log(senhaCriptografada);
     // console.log(userPassword);
     return bcrypt.compare(password, userPassword).then((res)=> {
-        console.log(res);
+        // console.log(res);
         return res;
     })
 }

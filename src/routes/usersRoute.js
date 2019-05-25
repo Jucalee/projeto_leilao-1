@@ -94,7 +94,7 @@ router.post('/confirm', auth, async (req, res) => {
 });
 
 router.put('/updatepassword', auth, async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, newPassword, cnewPassword } = req.body;
     if (!email || !password) return res.send({ error: "Dados insuficientes" })
 
     try {
@@ -104,7 +104,13 @@ router.put('/updatepassword', auth, async (req, res) => {
         const confirmed = user.isConfirmed;
         if (!confirmed) return res.status(401).send({ error: 'Usuário não confirmado!' })
 
-        const senhaCriptografada = await hashSenha(password);
+        const newPass_ok = password != newPassword;
+        if (!newPass_ok) return res.status(400).send({error: 'A nova senha não pode ser igual a senha atual'});
+
+        const cnewPass = newPassword === cnewPassword;
+        if (!cnewPass) return res.status(400).send({error: 'Confirmação de nova senha incorreta'});
+
+        const senhaCriptografada = await hashSenha(newPassword);
         await Users.updateOne({
             email
         }, {

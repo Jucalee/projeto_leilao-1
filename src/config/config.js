@@ -6,7 +6,7 @@ const config = () => {
             return {
                 bd_string: 'mongodb+srv://usuario_admin:190893hugo@clusterapi-1ore2.mongodb.net/test?retryWrites=true',
                 jwt_pass: 'batatafrita2019',
-                jwt_expires: '7d'
+                jwt_expires: '60000'
             }
 
         case 'hml':
