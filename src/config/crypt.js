@@ -1,12 +1,6 @@
 const bcrypt = require('bcryptjs');
 
 const hashSenha = (password) => {
-    // return bcrypt.genSalt(10, function(err, salt) {
-    //      bcrypt.hash(password, salt, function(err, res) {
-    //         return res;
-    //     });
-    // });
-
    return bcrypt.hashSync(password, 10);
 }
 

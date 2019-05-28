@@ -8,7 +8,7 @@ const auth = (req, res, next) => {
     if(!token_header) return res.status(401).send({error: 'Token não enviado!'});
 
     jwt.verify(token_header, config.jwt_pass, (err, decoded) => {
-        if (err) return res.status(401).send({error: 'Token Inválido'})
+        if (err) return res.status(401).send({error: 'Token Expirado'})
         res.locals.auth_data = decoded;
         return next();
     })

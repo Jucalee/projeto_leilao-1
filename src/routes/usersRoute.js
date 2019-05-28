@@ -8,12 +8,23 @@ const { sendEmail, sendEmailForgot } = require('../sendMail/sendMail');
 let randomstring = require('randomstring')
 const auth = require('../middlewares/auth')
 const {hashSenha, checkSenha} = require('../config/crypt')
+const passwordValidator = require('password-validator');
 
 //Funções Auxiliares
 
 const createUserToken = (userId) => {
     return jwt.sign({ id: userId }, config.jwt_pass, { expiresIn: config.jwt_expires });
 }
+
+const schema = new passwordValidator();
+schema
+    .is().min(8)
+    .is().max(10)
+    .has().lowercase()
+    .has().digits()
+    .has().not().spaces()
+    .is().not().oneOf(['12345678', '23456789', '01234567','012345678','0123456789','123456789','23456789','11111111', '111111111', '1111111111', '22222222', '222222222', '2222222222', '33333333', '333333333', '3333333333', '44444444', '444444444', '4444444444', '55555555', '555555555', '5555555555', '66666666', '666666666', '6666666666', '77777777', '777777777', '7777777777', '88888888', '888888888', '8888888888', '99999999', '999999999', '9999999999', '00000000', '000000000', '0000000000']);
+
 
 
 router.get('/', async (req, res) => {
@@ -103,6 +114,10 @@ router.put('/updatepassword', auth, async (req, res) => {
 
         const confirmed = user.isConfirmed;
         if (!confirmed) return res.status(401).send({ error: 'Usuário não confirmado!' })
+
+        const validation = schema.validate(newPassword);
+        // console.log(validation);
+        if (!validation) return res.status(400).send({error: 'A nova senha deve possuir entre 8 e 10 caracteres, sem espaços, não seuqencial, utilizando números e letras'});
 
         const newPass_ok = password != newPassword;
         if (!newPass_ok) return res.status(400).send({error: 'A nova senha não pode ser igual a senha atual'});
