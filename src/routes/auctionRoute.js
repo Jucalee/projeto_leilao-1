@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Auctions = require('../models/auction')
+const AuctionController = require('../controllers/auctionController')
 
-router.get('/', async (req,res) => {
-    try{
-        const auctions = await auctions.find({});
-        return res.send(auctions);
-    } catch (err) {
-        return res.status(500).send({err: 'Erro na consulta de Leilões! '})
-    }
-})
+router.get('/', AuctionController.showAuctions)
+router.post('/', AuctionController.create)
+
+module.exports = router
 
 //GetById
 //Post

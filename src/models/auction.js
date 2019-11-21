@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const AuctionSchema = new Schema({
     name: {type: String, required:true},
-    initialDate: {type: Date, default:Date.now},
-    finalDate: {type: Date, default:Date.now + 3},
     initialValue: {type: Number, required:true},
-    currentValue: {type: Number, default: initialValue, required: true},
+    initialDate: {type: Date, default:Date.now},
+    finalDate: {type: Date, default:() => new Date(+new Date() + 3*24*60*60*1000)},
+    currentValue: {type: Number, default: this.initialValue},
     bidId: {type: Number},
     userId: {type: Number},
     images: [{
