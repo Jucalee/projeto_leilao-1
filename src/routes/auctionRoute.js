@@ -5,6 +5,7 @@ const AuctionController = require('../controllers/auctionController')
 
 router.get('/', AuctionController.showAuctions)
 router.post('/', AuctionController.create)
+router.put('/:id', AuctionController.insertBid)
 
 module.exports = router
 

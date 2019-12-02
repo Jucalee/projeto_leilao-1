@@ -7,8 +7,8 @@ const AuctionSchema = new Schema({
     initialDate: {type: Date, default:Date.now},
     finalDate: {type: Date, default:() => new Date(+new Date() + 3*24*60*60*1000)},
     currentValue: {type: Number, default: this.initialValue},
-    bidId: {type: Number},
-    userId: {type: Number},
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', /*required: true*/},
+    userBidId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     images: [{
             imageUrl: {type: String}
     }]
